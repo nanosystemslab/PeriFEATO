@@ -1,5 +1,17 @@
 # PeriFEATO
 
+[![status](https://img.shields.io/badge/status-alpha-orange)](https://github.com/nanosystemslab/PeriFEATO)
+[![python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
+[![license](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
+[![DOLFINx](https://img.shields.io/badge/DOLFINx-0.9.0-blue)](https://github.com/FEniCS/dolfinx)
+[![Peridigm](https://img.shields.io/badge/Peridigm-fork-blue)](https://github.com/mattnakamura/peridigm)
+
+[![Physics](https://img.shields.io/badge/physics-FEA%20%2B%20Peridynamics-blueviolet)](#overview)
+[![Optimizers](https://img.shields.io/badge/optimizers-7-green)](#supported-optimization-algorithms)
+[![Mesh](https://img.shields.io/badge/mesh-Gmsh%20parametric-yellow)](perifeato/mesh/)
+[![HPC](https://img.shields.io/badge/HPC-SLURM%20%2B%20Singularity-lightgrey)](examples/hpc_templates/)
+[![Container](https://img.shields.io/badge/docker-mattnakamura%2Fdolfinx-2496ED?logo=docker)](https://hub.docker.com/r/mattnakamura/dolfinx)
+
 **Peri**digm + **FEA** + **T**opology **O**ptimization -- or as the Italians would say, *perfetto*.
 
 A dual-physics shell thickness optimization framework coupling finite element analysis (FEA) with peridynamic fracture simulation (Peridigm). PeriFEATO iteratively designs shell structures that satisfy both stress constraints and fracture performance targets.
