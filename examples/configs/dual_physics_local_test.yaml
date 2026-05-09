@@ -1,0 +1,113 @@
+version: "4.0-dual-physics-local-test"
+name: "shell-dual-physics-local-test"
+
+# ============================================================================
+# Dual-Physics Shell Thickness Optimization - Local Test Configuration
+# ============================================================================
+#
+# Fast local testing configuration with mock Peridigm
+# Use this to test the dual-physics optimization loop before HPC deployment
+#
+# ============================================================================
+
+mesh:
+  backend: "theta_mesh"
+  theta_config_path: "../modules/theta_mesh/config/base_config.yaml"
+  output_dir: "meshes_local"
+
+  theta_overrides:
+    geometry:
+      inner_radius_r_mm: 13.25
+      inner_radius_z_mm: 34.0
+      hole_radius_mm: 2.0
+    mesh:
+      target_element_size_mm: 3.0
+      interface_mesh_size_mm: 1.5
+      core_element_size_mm: 8.0
+      mesh_algorithm: 10
+    fracture_design:
+      fracture_planes_phi_deg: [0, 180]
+      zone_width_deg: 10.0
+      fracture_factor_theta: [0.6, 0.6, 0.6]
+
+fea:
+  backend: "truth_contact"
+  mode: "local"
+  simulation_mode: "transient"
+  use_worst_case_stress: true
+  parallel_orientations: false
+
+  # Transient dynamics
+  time_end_s: 0.005
+  timestep_s: 2.0e-5
+  time_integration: "newmark"
+  newmark_beta: 0.25
+  newmark_gamma: 0.5
+  damping_ratio: 0.03
+
+  # Drop parameters
+  drop_mass_kg: 0.045
+  drop_height_m: 5.1
+
+  # Contact
+  contact_penalty: 1.0e9
+  contact_model: "penalty"
+  cone_axial_band_mm: 1.5
+  cone_radial_band_mm: 1.0
+
+  # Solver
+  newton_max_it: 40
+  newton_relax: 1.0
+  stress_limit_Pa: 44.0e6
+
+  # Output
+  output_format: "vtk"
+  output_interval: 250
+  write_bc_markers: false
+
+peridigm:
+  backend: "mock"  # Use mock Peridigm for fast local testing
+  mode: "local"
+
+  # Mock Peridigm parameters
+  impact_velocity_m_s: 250.0
+  noise_level: 0.05
+  fracture_sensitivity: 1.5
+  shell_damage_factor: 0.3
+  impact_scaling: 0.02
+
+  # Damage thresholds
+  fracture_damage_target: 0.8
+  shell_damage_threshold: 0.2
+
+material:
+  min_thickness_mm: 0.5
+  max_thickness_mm: 10.0
+
+regions:
+  fracture_zone_ids: [1, 2]
+  shell_body_ids: [3, 4, 5]
+  steel_core_ids: [10]
+
+optimization:
+  n_theta_bands: 3
+  initial_thickness_mm: 1.0
+
+  thickness_update_rate: 0.1
+  safety_margin: 0.5
+  stress_band_stat: "p95"  # Use P95 percentile stress
+  stress_band_percentile: 95
+
+  max_iterations: 200  # Short test run
+  thickness_tolerance: 0.01
+  convergence_window: 2
+  fitness_tolerance: 0.1
+
+  dual_physics_weights:
+    stress: 1.0
+    fracture_miss: 1.0
+    shell_damage: 2.0
+
+output:
+  dir: "results_dual_physics_local_test"
+  save_every: 1

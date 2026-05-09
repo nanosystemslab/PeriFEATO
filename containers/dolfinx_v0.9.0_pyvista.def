@@ -1,0 +1,33 @@
+Bootstrap: localimage
+From: /home/mtdsn/Optimization_Framework/containers/dolfinx_v0.9.0.sif
+
+%post
+    # Update pip
+    python3 -m pip install --upgrade pip
+
+    # Install PyVista (for VTK file reading)
+    # PyVista requires vtk, which will be installed as a dependency
+    python3 -m pip install pyvista scipy
+
+    # Verify installation
+    python3 -c "import pyvista as pv; print(f'PyVista {pv.__version__} installed successfully')"
+    python3 -c "import scipy; print(f'SciPy {scipy.__version__} installed successfully')"
+
+%environment
+    # No additional environment variables needed - PyVista will be in Python path
+
+%labels
+    Author mnakamura
+    Version 0.9.0-pyvista
+    Description "DOLFINx 0.9.0 container with PyVista for VTK file reading"
+
+%help
+    This is a DOLFINx 0.9.0 container extended with PyVista for robust VTK file reading.
+
+    PyVista provides better support for reading VTU/PVTU files of all versions.
+
+    Usage:
+        singularity exec dolfinx_v0.9.0_pyvista.sif python3 your_script.py
+
+    To verify PyVista is available:
+        singularity exec dolfinx_v0.9.0_pyvista.sif python3 -c "import pyvista; print(pyvista.__version__)"

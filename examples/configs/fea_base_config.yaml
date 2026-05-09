@@ -1,0 +1,96 @@
+# =============================================================================
+# 3D SHELL OPTIMIZATION CONFIGURATION
+# Fishing weight with PLA shell on rigid steel core
+# =============================================================================
+
+geometry:
+  inner_radius_r_mm: 13.25        # Horizontal radius (mm)
+  inner_radius_z_mm: 34.0         # Vertical radius (mm)
+  hole_radius_mm: 2.0             # Hole at poles
+  n_profile_points: 100           # Profile resolution
+
+material:
+  # PLA shell properties (literature values: Gao2022, Ramirez2024)
+  youngs_modulus_gpa: 2.5      # Updated from 3.5 to match literature
+  poissons_ratio: 0.36
+  density_kg_m3: 1240          # PLA density
+  yield_stress_mpa: 44         # Conservative yield stress for PLA
+
+  # Thickness bounds
+  min_thickness_mm: 0.5     # Increased from 0.3 to 0.5mm minimum
+  max_thickness_mm: 10.0
+
+  # Optional (refined mesh generator): piecewise thickness by theta band
+  # - theta: 0° at pole (|z|≈c_core), 90° at equator (z≈0)
+  # - length must match `mesh.theta_band_edges_deg` bands
+  # protected_thickness_theta_mm: [0.8, 1.0, 1.2]
+
+  # Steel core (rigid, non-deformable)
+  core_youngs_modulus_gpa: 200
+  core_poissons_ratio: 0.3
+
+impact_loads:
+  force_n: 1000                   # Impact force (N)
+  patch_radius_mm: 3.0            # Contact area radius
+
+  # Test locations: θ (latitude) × φ (longitude)
+  test_angles_theta_deg: [45, 90]  # Mid-side and equator
+  test_angles_phi_deg: [90, 10]    # Away from fracture (90°) and near fracture (10°)
+
+  # Stress distribution parameters
+  influence_radius_mm: 15.0
+  influence_decay: cosine
+
+fracture_loads:
+  # High-speed impact at pole hole
+  line_load_n: 12500              # Impulsive fracture force
+
+fracture_design:
+  # Vertical fracture planes for splitting
+  fracture_planes_phi_deg: [0, 180]
+  zone_width_deg: 10.0
+  initial_thickness_factor: 0.6   # Increased to 60% to ensure thicker fracture zones
+
+  # Optional (refined mesh generator): fracture thickness by theta band
+  # - If set, must match the number of theta bands
+  # fracture_factor_theta: [0.7, 0.6, 0.5]   # fracture = protected * factor
+  # fracture_thickness_theta_mm: [0.56, 0.6, 0.6]
+
+optimization:
+  initial_thickness_mm: 1.0
+  max_iterations: 150
+  thickness_update_rate: 0.15
+
+  # Convergence criteria
+  target_safety_factor_min: 0.99
+  target_safety_factor_max: 1.05
+  stress_stabilization_tol_mpa: 0.5    # Max stress change (MPa)
+  convergence_window: 5                 # Consecutive iterations to verify
+
+  # FEM verification (optional - requires DOLFINx installation)
+  enable_fem_verification: true         # Enable FEM stress validation
+  fem_verification_interval: 10         # Run FEM every N iterations
+  fem_final_validation: true            # Always run FEM on final design
+
+mesh:
+  n_phi_divisions: 60             # Angular divisions
+  target_element_size_mm: 2.0     # General mesh size (debug/iteration)
+  interface_mesh_size_mm: 1.0     # Finer mesh at steel/PLA interface
+  interface_distance_mm: 3.0      # Distance over which refinement transitions
+  mesh_algorithm: 10              # 10 = HXT algorithm (high quality)
+  mesh_optimize: 1                # Enable mesh optimization
+  mesh_smoothing: 5               # Number of smoothing passes
+  gmsh_terminal: 0                # 1=verbose gmsh logs
+  occ_heal: false                 # opt-in only (can turn solids into shells on some builds)
+  size_min_factor: 1.0            # CharacteristicLengthMin = size_min_factor * target_element_size_mm
+  size_max_factor: 3.0            # CharacteristicLengthMax = size_max_factor * target_element_size_mm
+  merge_duplicate_nodes: true     # Merge coincident nodes (important for multi-volume meshes)
+  merge_tol_mm: 1e-6              # Tolerance for merging (mm)
+
+  # Optional (refined mesh generator): theta-band edges (deg), must start at 0 and end at 90
+  # theta_band_edges_deg: [0, 30, 60, 90]
+
+output:
+  results_dir: results_optimized
+  save_iteration_snapshots: 10    # Save plots every N iterations
+  export_paraview: true

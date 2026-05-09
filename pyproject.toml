@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "perifeato"
+version = "0.1.0"
+description = "Dual-physics shell thickness optimization with Peridigm + FEA + Topology Optimization"
+readme = "README.md"
+license = "GPL-3.0-only"
+requires-python = ">=3.10"
+authors = [
+    {name = "Matthew Nakamura"},
+]
+keywords = [
+    "topology-optimization",
+    "finite-element-analysis",
+    "peridynamics",
+    "fracture-mechanics",
+    "shell-structures",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "numpy",
+    "pyyaml",
+    "meshio",
+]
+
+[project.optional-dependencies]
+fea = [
+    "fenics-dolfinx>=0.9.0",
+    "pyvista",
+]
+optimization = [
+    "scipy",
+]
+all = [
+    "perifeato[fea,optimization]",
+]
+
+[project.urls]
+Homepage = "https://github.com/mattnakamura/PeriFEATO"
+Repository = "https://github.com/mattnakamura/PeriFEATO"
+
+[tool.setuptools.packages.find]
+include = ["perifeato*"]

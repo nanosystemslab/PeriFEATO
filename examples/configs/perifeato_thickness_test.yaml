@@ -1,0 +1,88 @@
+version: "perifeato-0.1-thickness-test"
+name: "perifeato-thickness-test"
+
+# ============================================================================
+# PeriFEATO end-to-end thickness optimization test (FEA only, 3 iterations).
+#
+# Drives perifeato.optimization.shell_thickness.thickness_loop using the
+# truth_contact FEA solver. Mesh and FEA tooling come from the existing
+# Optimization_Framework install on KOA (resolved via OF_ROOT env var).
+# ============================================================================
+
+mesh:
+  backend: "theta_mesh"
+  theta_config_path: "/home/mtdsn/Optimization_Framework/modules/theta_mesh/config/base_config.yaml"
+  output_dir: "/home/mtdsn/koa_scratch/perifeato_thick_meshes"
+
+  theta_overrides:
+    geometry:
+      inner_radius_r_mm: 13.25
+      inner_radius_z_mm: 34.0
+      hole_radius_mm: 2.0
+    mesh:
+      target_element_size_mm: 3.0
+      interface_mesh_size_mm: 1.5
+      core_element_size_mm: 8.0
+      mesh_algorithm: 10
+      theta_band_edges_deg: [0, 9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
+    fracture_design:
+      fracture_planes_phi_deg: [0, 180]
+      zone_width_deg: 10.0
+      fracture_factor_theta: [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+
+fea:
+  backend: "truth_contact"
+  mode: "local"
+  simulation_mode: "transient"
+  use_worst_case_stress: true
+  parallel_orientations: true   # Run 7 orientations concurrently (one per CPU)
+
+  time_end_s: 0.005
+  timestep_s: 2.0e-5
+  time_integration: "newmark"
+  newmark_beta: 0.25
+  newmark_gamma: 0.5
+  damping_ratio: 0.03
+
+  drop_mass_kg: 0.045
+  drop_height_m: 5.1
+
+  contact_penalty: 1.0e9
+  contact_model: "penalty"
+  cone_axial_band_mm: 1.5
+  cone_radial_band_mm: 1.0
+
+  newton_max_it: 40
+  newton_relax: 1.0
+  stress_limit_Pa: 44.0e6
+
+  output_format: "vtk"
+  output_interval: 250
+  write_bc_markers: false
+
+material:
+  min_thickness_mm: 0.5
+  max_thickness_mm: 10.0
+
+optimization:
+  optimization_method: "fsd"  # FSD-G
+
+  n_theta_bands: 10
+  initial_thickness_mm: 1.5
+
+  thickness_relaxation: 0.4
+  target_safety_factor: 2.0
+  thickness_resolution_mm: 0.05
+  stress_thickness_exponent: 0.5
+
+  stress_band_stat: "p95"
+  stress_band_percentile: 95
+
+  # Test run: just 3 iterations to validate the pipeline.
+  max_iterations: 3
+  thickness_tolerance: 0.05
+  convergence_window: 3
+
+output:
+  dir: "/home/mtdsn/koa_scratch/perifeato_thick_test"
+  save_every: 1
