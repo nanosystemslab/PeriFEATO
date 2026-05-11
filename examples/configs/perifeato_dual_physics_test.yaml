@@ -12,8 +12,8 @@ name: perifeato-dp-test
 
 mesh:
   backend: theta_mesh
-  theta_config_path: /home/mtdsn/Optimization_Framework/modules/theta_mesh/config/base_config.yaml
-  output_dir: /home/mtdsn/koa_scratch/perifeato_dp_meshes
+  theta_config_path: ${HOME}/Optimization_Framework/modules/theta_mesh/config/base_config.yaml
+  output_dir: ${HOME}/koa_scratch/perifeato_dp_meshes
   theta_overrides:
     geometry:
       inner_radius_r_mm: 13.25
@@ -103,9 +103,12 @@ peridigm:
   hpc:
     partition: kill-shared
     nodes: 1
-    ntasks: 8
-    time_limit: 04:00:00
-    timeout: 14400
+    # 4 ranks instead of 8 trades ~50-100% longer Peridigm runtime for
+    # much shorter queue wait on busy clusters (4-task jobs schedule
+    # easily; 8-task jobs get blocked by larger pending allocations).
+    ntasks: 4
+    time_limit: 06:00:00
+    timeout: 21600
 
 material:
   min_thickness_mm: 1.2
@@ -186,5 +189,5 @@ optimization:
   fsd_update_smoothing: 0.3
 
 output:
-  dir: /home/mtdsn/koa_scratch/perifeato_dp_test
+  dir: ${HOME}/koa_scratch/perifeato_dp_test
   save_every: 1

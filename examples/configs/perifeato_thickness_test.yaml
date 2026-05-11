@@ -11,8 +11,8 @@ name: "perifeato-thickness-test"
 
 mesh:
   backend: "theta_mesh"
-  theta_config_path: "/home/mtdsn/Optimization_Framework/modules/theta_mesh/config/base_config.yaml"
-  output_dir: "/home/mtdsn/koa_scratch/perifeato_thick_meshes"
+  theta_config_path: "${HOME}/Optimization_Framework/modules/theta_mesh/config/base_config.yaml"
+  output_dir: "${HOME}/koa_scratch/perifeato_thick_meshes"
 
   theta_overrides:
     geometry:
@@ -84,5 +84,5 @@ optimization:
   convergence_window: 3
 
 output:
-  dir: "/home/mtdsn/koa_scratch/perifeato_thick_test"
+  dir: "${HOME}/koa_scratch/perifeato_thick_test"
   save_every: 1

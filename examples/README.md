@@ -40,8 +40,44 @@ Local (with mock Peridigm):
 python -m perifeato.cli.run_optimization --config examples/configs/dual_physics_local_test.yaml
 ```
 
-HPC (UH KOA):
+HPC (UH KOA), end-to-end test (3 iterations, FSD-G):
 
 ```bash
-sbatch examples/hpc_templates/run_dual_physics_optimization.slurm
+cd ~/PeriFEATO
+sbatch examples/hpc_templates/run_perifeato_dual_physics.slurm
+```
+
+## Resuming a run with `CONTINUE_FROM`
+
+PeriFEATO checkpoints `optimization_state.json` and `history.json` after every
+iteration. Algorithm-specific state (momentum EMA, OC asymptotes, MMA
+asymptotes, BO GP samples, PGD step history, COBYLA simplex, fracture
+bisection) is persisted alongside the thickness vector, so resuming does not
+reset any optimizer's internal state.
+
+If a job times out or is preempted, submit a new job pointing
+`CONTINUE_FROM` at the previous run's output directory:
+
+```bash
+sbatch \
+    --export=ALL,CONTINUE_FROM=/home/USER/koa_scratch/perifeato_dp_<prev_jobid> \
+    examples/hpc_templates/run_perifeato_dual_physics.slurm
+```
+
+The driver copies the previous run's `optimization_state.json` into the new
+output directory, reads the iteration counter, and starts at `iteration N+1`.
+
+## Reducing Peridigm queue wait
+
+The default config requests 4 MPI ranks for Peridigm, which schedules
+quickly even on a busy `kill-shared` partition. If your cluster has more
+headroom, increase `peridigm.hpc.ntasks` to 8 for ~1.5-2x faster Peridigm
+runs at the cost of a longer queue wait. Edit:
+
+```yaml
+peridigm:
+  hpc:
+    ntasks: 8
+    time_limit: 04:00:00
+    timeout: 14400
 ```

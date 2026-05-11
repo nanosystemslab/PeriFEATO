@@ -8,8 +8,6 @@
 #SBATCH --time=24:00:00
 #SBATCH --output=logs/dual_physics_opt_%j.log
 #SBATCH --error=logs/dual_physics_opt_%j.err
-#SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
-#SBATCH --mail-user=mtdsn@hawaii.edu
 
 # ============================================================================
 # Dual-Physics Shell Thickness Optimization - HPC Execution (PARALLEL)

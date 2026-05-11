@@ -49,8 +49,8 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mattnakamura/PeriFEATO"
-Repository = "https://github.com/mattnakamura/PeriFEATO"
+Homepage = "https://github.com/nanosystemslab/PeriFEATO"
+Repository = "https://github.com/nanosystemslab/PeriFEATO"
 
 [tool.setuptools.packages.find]
 include = ["perifeato*"]

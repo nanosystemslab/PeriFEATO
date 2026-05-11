@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=7  # 7 parallel FEA orientations (one per CPU)
 #SBATCH --mem=32G
-#SBATCH --time=06:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=logs/perifeato_dp_%j.log
 #SBATCH --error=logs/perifeato_dp_%j.err
 

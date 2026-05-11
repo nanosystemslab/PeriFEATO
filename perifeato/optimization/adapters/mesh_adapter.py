@@ -155,7 +155,7 @@ def _generate_theta_mesh(mesh_cfg: Dict, full_config: Dict) -> MeshData:
 
     # Use HPC path (from environment variable or hardcoded)
     # NO FALLBACK - fail loudly if path is wrong
-    of_root = Path(os.environ.get("OF_ROOT", "/home/mtdsn/Optimization_Framework"))
+    of_root = Path(os.environ.get("OF_ROOT", str(Path.home() / "Optimization_Framework")))
     theta_mesh_src = of_root / "modules" / "theta_mesh" / "src"
 
     if not theta_mesh_src.exists():

@@ -2,8 +2,8 @@ version: v7-cobyla
 name: dual-physics-cobyla
 mesh:
   backend: theta_mesh
-  theta_config_path: /home/mtdsn/Optimization_Framework/modules/theta_mesh/config/base_config.yaml
-  output_dir: /home/mtdsn/koa_scratch/dual_physics_meshes
+  theta_config_path: ${HOME}/Optimization_Framework/modules/theta_mesh/config/base_config.yaml
+  output_dir: ${HOME}/koa_scratch/dual_physics_meshes
   theta_overrides:
     geometry:
       inner_radius_r_mm: 13.25

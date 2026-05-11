@@ -70,8 +70,8 @@ Configuration files are YAML-based and located in `config/`.
 ```yaml
 mesh:
   backend: "theta_mesh"
-  theta_config_path: "/home/mtdsn/Optimization_Framework/modules/theta_mesh/config/base_config.yaml"
-  output_dir: "/home/mtdsn/scratch/meshes"
+  theta_config_path: "${HOME}/Optimization_Framework/modules/theta_mesh/config/base_config.yaml"
+  output_dir: "${HOME}/scratch/meshes"
   theta_overrides:
     geometry:
       inner_radius_r_mm: 13.25

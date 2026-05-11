@@ -223,8 +223,24 @@ def run_thickness_optimization(config_file: str) -> Tuple[ThetaBandParams, List[
     return thickness_params, history
 
 
+def _expand_env_vars(value):
+    """Recursively expand ${VAR} and ~ in string leaves of a config tree."""
+    import os
+    if isinstance(value, str):
+        return os.path.expanduser(os.path.expandvars(value))
+    if isinstance(value, dict):
+        return {k: _expand_env_vars(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_expand_env_vars(v) for v in value]
+    return value
+
+
 def _load_config(config_file: str) -> Dict:
-    """Load configuration from YAML file."""
+    """Load configuration from YAML file.
+
+    Expands ``${VAR}`` and ``~`` references in any string value so configs
+    can use ``${HOME}/...`` paths portably across users.
+    """
     config_path = Path(config_file)
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_file}")
@@ -232,7 +248,7 @@ def _load_config(config_file: str) -> Dict:
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
 
-    return config
+    return _expand_env_vars(config)
 
 
 def _resolve_output_dir(config: Dict) -> Path:

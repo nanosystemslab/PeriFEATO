@@ -149,7 +149,7 @@ def _run_real_peridigm_hpc(
     hpc_cfg = peridigm_cfg.get("hpc", {})
 
     # Get OF_ROOT
-    of_root = Path(os.environ.get("OF_ROOT", "/home/mtdsn/Optimization_Framework"))
+    of_root = Path(os.environ.get("OF_ROOT", str(Path.home() / "Optimization_Framework")))
     peridigm_module = of_root / "modules" / "peridigm_fracture"
 
     if not peridigm_module.exists():
@@ -422,7 +422,7 @@ def _submit_peridigm_slurm_job(
             "to have the SLURM wrapper script handle Peridigm job submission."
         )
 
-    of_root = Path(os.environ.get("OF_ROOT", "/home/mtdsn/Optimization_Framework"))
+    of_root = Path(os.environ.get("OF_ROOT", str(Path.home() / "Optimization_Framework")))
 
     # Use flyback split core SLURM script for production
     slurm_script = (

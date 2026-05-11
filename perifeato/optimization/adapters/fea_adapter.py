@@ -248,7 +248,7 @@ def _run_truth_contact_local(mesh_data, density: np.ndarray, config: Dict) -> Di
     import time
     t_prep_start = time.time()
 
-    of_root = Path(os.environ.get("OF_ROOT", "/home/mtdsn/Optimization_Framework"))
+    of_root = Path(os.environ.get("OF_ROOT", str(Path.home() / "Optimization_Framework")))
     truth_fea_src = of_root / "modules" / "fea_truth_contact" / "src"
 
     if not truth_fea_src.exists():
@@ -475,7 +475,7 @@ def _run_multi_orientation_fea(mesh_data, density: np.ndarray, config: Dict) -> 
 
     # Find truth FEA module - use HPC path (NO FALLBACK)
     import os
-    of_root = Path(os.environ.get("OF_ROOT", "/home/mtdsn/Optimization_Framework"))
+    of_root = Path(os.environ.get("OF_ROOT", str(Path.home() / "Optimization_Framework")))
     truth_fea_src = of_root / "modules" / "fea_truth_contact" / "src"
 
     if not truth_fea_src.exists():

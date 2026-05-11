@@ -7,7 +7,7 @@ lightweight; most of the install effort goes into the underlying solvers.
 ## 1. Python package
 
 ```bash
-git clone https://github.com/mattnakamura/PeriFEATO.git
+git clone https://github.com/nanosystemslab/PeriFEATO.git
 cd PeriFEATO
 pip install -e .
 ```

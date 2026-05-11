@@ -988,10 +988,27 @@ def _compute_path_breach(
 # Configuration and I/O Helpers
 # ============================================================================
 
+def _expand_env_vars(value):
+    """Recursively expand ${VAR} and ~ in string leaves of a config tree."""
+    import os
+    if isinstance(value, str):
+        return os.path.expanduser(os.path.expandvars(value))
+    if isinstance(value, dict):
+        return {k: _expand_env_vars(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_expand_env_vars(v) for v in value]
+    return value
+
+
 def _load_config(config_file: str) -> Dict:
-    """Load YAML configuration file."""
+    """Load YAML configuration file.
+
+    Expands ``${VAR}`` and ``~`` references in any string value so configs
+    can use ``${HOME}/...`` paths portably across users.
+    """
     with open(config_file, 'r') as f:
-        return yaml.safe_load(f)
+        config = yaml.safe_load(f)
+    return _expand_env_vars(config)
 
 
 def _resolve_output_dir(config: Dict) -> Path:

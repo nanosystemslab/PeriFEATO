@@ -40,7 +40,7 @@ PeriFEATO provides a complete pipeline for impact-driven topology optimization o
 ## Installation
 
 ```bash
-git clone https://github.com/mattnakamura/PeriFEATO.git
+git clone https://github.com/nanosystemslab/PeriFEATO.git
 cd PeriFEATO
 pip install -e .
 ```

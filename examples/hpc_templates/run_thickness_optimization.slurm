@@ -8,8 +8,6 @@
 #SBATCH --time=08:00:00
 #SBATCH --output=logs/thickness_opt_%j.log
 #SBATCH --error=logs/thickness_opt_%j.err
-#SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
-#SBATCH --mail-user=mtdsn@hawaii.edu
 
 # ============================================================================
 # Shell Thickness Optimization - HPC Execution
