@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use PeriFEATO in your research, please cite it as below."
+type: software
+title: "PeriFEATO: Peridigm + FEA + Topology Optimization"
+abstract: >-
+  A dual-physics shell thickness optimization framework coupling
+  finite element analysis (FEA) with peridynamic fracture simulation
+  (Peridigm). PeriFEATO iteratively designs shell structures that
+  satisfy both stress constraints and fracture performance targets,
+  supporting seven optimization algorithms (FSD-G, FSD-GA, OC, MMA,
+  BO, PGD, COBYLA).
+authors:
+  - family-names: Nakamura
+    given-names: Matthew
+    affiliation: "Applied Research Laboratory, University of Hawaii at Manoa"
+repository-code: "https://github.com/nanosystemslab/PeriFEATO"
+url: "https://github.com/nanosystemslab/PeriFEATO"
+license: GPL-3.0
+version: 0.1.0
+keywords:
+  - topology-optimization
+  - finite-element-analysis
+  - peridynamics
+  - fracture-mechanics
+  - shell-structures
+  - dolfinx
+  - peridigm
