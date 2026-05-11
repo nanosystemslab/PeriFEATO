@@ -3,6 +3,7 @@
 [![status](https://img.shields.io/badge/status-alpha-orange)](https://github.com/nanosystemslab/PeriFEATO)
 [![python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
 [![license](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20126810.svg)](https://doi.org/10.5281/zenodo.20126810)
 [![DOLFINx](https://img.shields.io/badge/DOLFINx-0.9.0-blue)](https://github.com/FEniCS/dolfinx)
 [![Peridigm](https://img.shields.io/badge/Peridigm-fork-blue)](https://github.com/mattnakamura/peridigm)
 
