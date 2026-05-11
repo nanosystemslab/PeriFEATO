@@ -118,6 +118,30 @@ PeriFEATO/
 | [mattnakamura/peridigm](https://github.com/mattnakamura/peridigm) | Fork of Peridigm with KOA-specific dependency patches |
 | [mattnakamura/KOA_Peridigm_Install](https://github.com/mattnakamura/KOA_Peridigm_Install) | Automated build pipeline for Peridigm on UH KOA HPC |
 
+## Citation
+
+If you use PeriFEATO in your research, please cite it via its Zenodo DOI.
+A machine-readable [`CITATION.cff`](CITATION.cff) is also provided.
+
+### BibTeX
+
+```bibtex
+@software{nakamura_perifeato_2026,
+  author    = {Nakamura, Matthew},
+  title     = {{PeriFEATO}: {Peridigm} + {FEA} + {Topology Optimization}},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {v0.1.0},
+  doi       = {10.5281/zenodo.20126810},
+  url       = {https://doi.org/10.5281/zenodo.20126810}
+}
+```
+
+If your work also depends on the Peridigm runtime, please additionally cite
+the [Peridigm KOA fork](https://github.com/mattnakamura/peridigm)
+([10.5281/zenodo.20126668](https://doi.org/10.5281/zenodo.20126668)) and
+the upstream Peridigm paper by Littlewood et al. (2023).
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 -- see the [LICENSE](LICENSE) file for details.
